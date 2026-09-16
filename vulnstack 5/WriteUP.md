@@ -22,6 +22,7 @@
 >
 >1. 你需要下载 [红日靶场 5](http://vulnstack.qiyuanxuetang.net/vuln/detail/7/)
 >2. 推荐使用 [kali](https://www.kali.org/) 作为攻击机。
+>3. 建议在实验前，下载并安装好 [ThinkPHP 漏洞利用 GUI 工具](https://github.com/Lotus6/ThinkphpGUI/releases/tag/1.3) 、 [冰蝎](https://github.com/rebeyond/Behinder/releases/tag/Behinder_v4.0.7) 和 [Cobalt Strike](https://lololowe.lanzoul.com/b0fpjwwxc?pwd=2xhh)。
 
 ### 靶机配置
 
@@ -83,6 +84,102 @@
 >双击 “Internet 协议版本4 (TCP/IPv4)属性”，改成 “自动获得 IP 地址” 与 “自动获得 DNS 服务器地址”，一路点击 “确定” 保存设置修改。
 >
 >![alto_get_IP](./images/alto_get_IP.png)
+
+### ThinkPHP 漏洞利用 GUI 工具 安装与使用教程
+
+[ThinkPHP 漏洞利用 GUI 工具](https://github.com/Lotus6/ThinkphpGUI/releases/tag/1.3/)
+
+下载 ```.jar``` 文件
+
+![ThinkPHPGUI_download](./images/ThinkPHPGUI_download.png)
+
+用终端打开本地存储文件夹，运行命令
+
+```bash
+java -jar ThinkphpGUI-1.3-SNAPSHOT.jar
+```
+
+![try_start_ThinkPHPGUI](./images/try_start_ThinkPHPGUI.png)
+
+### 冰蝎 安装与使用教程
+
+[冰蝎](https://github.com/rebeyond/Behinder/releases/tag/Behinder_v4.0.7)
+
+下载 ```.zip``` 文件
+
+![Behinder_download](./images/Behinder_download.png)
+
+在 kali 中解压后，使用终端打开本地存储文件夹，运行命令
+
+```bash
+java -jdk Behinder.jar
+```
+
+![try_start_Behinder](./images/try_start_Behinder.png)
+
+### Cobalt Strike 安装与使用教程
+
+[Cobalt Strike](https://lololowe.lanzoul.com/b0fpjwwxc?pwd=2xhh) 密码是：```2xhh```
+
+[Cobalt Strike 安装和基本使用方式](https://blog.lololowe.com/posts/7126/)
+
+在 kali 中解压缩，分别用两个终端打开文件夹。
+
+在终端 1 中，运行命令，启动 Cobalt Strike 服务端
+
+```bash
+# 格式为： sudo ./teamserver <kali NAT ip> <kali password>
+sudo ./teamserver 192.168.114.130 kali
+```
+
+正常情况如下：
+
+![cs-teamserver](./images/cs-teamserver.png)
+
+在终端 2 中，运行命令，启动 Cobalt Strike 客户端
+
+```bash
+./cobaltstrike
+```
+
+如下配置
+
+![cs-client](./images/cs-client.png)
+
+>[!TIP]
+>
+>第一次运行时有概率因没有执行权限而报错
+>请运行：
+>
+>```bash
+>chmod +x teamserver
+>```
+>或
+>```bash
+>chmod +x cobaltstrike
+>```
+>以添加相应权限
+
+>[!TIP]
+>
+>对于 cs4.5 而言，过高的 JDK 版本也会导致报错
+>请下载低版本 [JDK11](https://adoptium.net/zh-CN/temurin/releases?version=11&os=any&arch=any)
+>并在启动客户端前运行命令，临时更改 JDK 版本
+>
+>```bash
+># 格式为：export JAVA_HOME= <path to jdk-11>
+>export JAVA_HOME=/home/kali/Tools/jdk-11.0.32+9/
+>```
+>
+>与
+>
+>```bash
+>export PATH=$JAVA_HOME/bin:$PATH
+>```
+>
+>然后再在同一终端启动客户端
+
+---
 
 启动 phpStudy 时会让你输入管理员账号密码：```Administrator/dc123.com```
 
