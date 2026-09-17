@@ -181,7 +181,27 @@ sudo ./teamserver 192.168.114.130 kali
 
 ---
 
-启动 phpStudy 时会让你输入管理员账号密码：```Administrator/dc123.com```
+## 实验过程
+
+>[!TIP]
+>
+>建议在实验开始前，给三台机器分别打上快照，方便后续重复实验。
+>
+>关机状态打快照速度更快
+
+>[!TIP]
+>
+>由于靶机的配置相对较差，有的时候反应较慢，请耐心等待，避免因重复操作而产生非预期结果。
+
+### 启动服务网页服务
+
+打开 win7 的 C 盘，进入 phpStudy 文件夹，双击运行 phpStudy.exe 文件，输入管理员账号密码：```Administrator/dc123.com```，点击 启动 按钮。
+
+![start-phpStudy](./images/start-phpStudy.png)
+
+使用 Internet Explorer 8 访问 localhost 查看网页服务是否正常启动。
+
+![localhost-check-phpStudy](./images/localhost-check-phpStudy.png)
 
 ---
 
