@@ -26,7 +26,7 @@
 
 同时，作者本人在做实验遇到的问题均已用 TIP 格式标注，思考的地方则已用 NOTE 格式标注，欢迎各位读者提交打靶时的思考以及遇到的、笔记中未涉及的其他问题并最好附上其对应的解决方案。
 
-建议打靶顺序为：$1 \rightarrow 5 \rightarrow 2 \rightarrow 6 \rightarrow 3 \rightarrow 7 \rightarrow 4$
+建议打靶顺序为：$1$ $\rightarrow$ $5$ $\rightarrow$ $2$ $\rightarrow$ $6$ $\rightarrow$ $3$ $\rightarrow$ $7$ $\rightarrow$ $4$
 
 ## 免责声明
 
