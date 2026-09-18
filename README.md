@@ -55,7 +55,7 @@
 | vulnstack 2 | 规划中 | - |
 | vulnstack 3 | 规划中 | - |
 | vulnstack 4 | 规划中 | - |
-| vulnstack 5 | 更新中 | 2026.09.09 |
+| vulnstack 5 | 更新中 | 2026.09.18 |
 | vulnstack 6 | 规划中 | - |
 | vulnstack 7 | 规划中 | - |
 
