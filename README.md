@@ -64,7 +64,7 @@
 | vulnstack 2 | 规划中 | - |
 | vulnstack 3 | 规划中 | - |
 | vulnstack 4 | 规划中 | - |
-| [vulnstack 5](./vulnstack%205/WriteUP.md) | 更新中 | 2026.09.18 |
+| [vulnstack 5](./vulnstack%205/WriteUP.md) | 更新中 | 2026.09.21 |
 | vulnstack 6 | 规划中 | - |
 | vulnstack 7 | 规划中 | - |
 
