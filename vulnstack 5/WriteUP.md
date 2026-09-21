@@ -112,10 +112,29 @@ java -jar ThinkphpGUI-1.3-SNAPSHOT.jar
 在 kali 中解压后，使用终端打开本地存储文件夹，运行命令
 
 ```bash
-java -jdk Behinder.jar
+java -jar Behinder.jar
 ```
 
 ![try_start_Behinder](./images/try_start_Behinder.png)
+
+>[!TIP]
+>
+>对于 冰蝎 v4.0.7 而言，过高的 JDK 版本也会导致报错
+>请下载低版本 [JDK11](https://adoptium.net/zh-CN/temurin/releases?version=11&os=any&arch=any)
+>并在启动客户端前运行命令，临时更改 JDK 版本
+>
+>```bash
+># 格式为：export JAVA_HOME= <path to jdk-11>
+>export JAVA_HOME=/home/kali/Tools/jdk-11.0.32+9/
+>```
+>
+>与
+>
+>```bash
+>export PATH=$JAVA_HOME/bin:$PATH
+>```
+>
+>然后再在同一终端启动客户端
 
 ### Cobalt Strike 安装与使用教程
 
@@ -203,6 +222,18 @@ sudo ./teamserver 192.168.114.130 kali
 
 ![localhost-check-phpStudy](./images/localhost-check-phpStudy.png)
 
+---
+- 外网信息搜集
+- - 网段扫描（略）
+- - 端口扫描
+- - 目录爆破（仿红日1，但发现无可利用隐藏网页）
+- 突破外网服务器
+- - 漏洞扫描
+- - getshell
+- - - 一键 getshell （getshell 从只能访问网页到可在服务器执行命令）
+- - - 蚁剑连接跳板上传冰蝎马
+- - - 冰蝎连接
+- 内网渗透（几乎同红日1）
 ---
 
 ## 参考文献
