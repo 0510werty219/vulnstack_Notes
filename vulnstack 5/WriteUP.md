@@ -238,4 +238,5 @@ sudo ./teamserver 192.168.114.130 kali
 
 ## 参考文献
 
-1. [红日靶场05通关记录](https://cn-sec.com/archives/1040933.html)
+1. [红日靶场 05 通关记录](https://cn-sec.com/archives/1040933.html)
+2. [红日靶场 5 实战全流程](https://blog.csdn.net/mooyuan/article/details/152000293)
