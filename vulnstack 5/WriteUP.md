@@ -101,6 +101,8 @@ java -jar ThinkphpGUI-1.3-SNAPSHOT.jar
 
 ![try_start_ThinkPHPGUI](./images/try_start_ThinkPHPGUI.png)
 
+后续，为方便称呼，我们直接称其为 “莲花”。
+
 ### 冰蝎 安装与使用教程
 
 [冰蝎](https://github.com/rebeyond/Behinder/releases/tag/Behinder_v4.0.7)
@@ -204,7 +206,7 @@ sudo ./teamserver 192.168.114.132 kali
 
 >[!TIP]
 >
->建议在实验开始前，给三台机器分别打上快照，方便后续重复实验。
+>建议在实验开始前，给两台机器分别打上快照，方便后续重复实验。
 >
 >关机状态打快照速度更快
 
@@ -233,7 +235,7 @@ sudo ./teamserver 192.168.114.132 kali
 >
 >它不是一个真正意义上的网站，而是一个 ThinkPHP V5 框架的默认欢迎页面。
 >
->具体来说：这个网页以及未来可能要搭建的网站都是由 ThinkPHP 这个PHP开发框架生成的。
+>具体来说：这个网页以及未来可能要搭建的网站都是由 ThinkPHP 这个 PHP 开发框架生成的。
 >
 >这个页面是框架安装成功后的初始页面，说明服务器上已经成功部署了 ThinkPHP 框架，但尚未添加任何实际的网站内容。
 >
@@ -356,11 +358,17 @@ nmap 192.168.114.128
 >
 ></details>
 
+通过这个页面我们可以知道这个网页由 ThinkPHP V5.0 这个 PHP 开发框架生成的。而这个框架的默认目录是已知公开的，无需像红日靶场 1 一样进行目录爆破。后续可以直接针对其进行常见漏洞扫描。
+
+### 突破外网服务器
+
+#### 漏洞扫描
+
+我们打开莲花工具，填入 URL，版本选择 All。如图操作：
+
+![vulnerability_scanning](./images/vulnerability_scanning.png)
+
 ---
-- 外网信息搜集
-- - 网段扫描（略）
-- - 端口扫描
-- - 目录爆破（仿红日1，但发现无可利用隐藏网页）
 - 突破外网服务器
 - - 漏洞扫描
 - - getshell
