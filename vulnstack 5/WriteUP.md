@@ -4,9 +4,29 @@
 
 ## 目录
 
->[!ERROR]
->
->After finishing this whole notes, remember to build TOC
+- [环境配置](#环境配置)
+  - [靶机配置](#靶机配置)
+  - [ThinkPHP 漏洞利用 GUI 工具 安装与使用教程](#thinkphp-漏洞利用-gui-工具-安装与使用教程)
+  - [冰蝎 安装与使用教程](#冰蝎-安装与使用教程)
+  - [Cobalt Strike 安装与使用教程](#cobalt-strike-安装与使用教程)
+- [实验过程](#实验过程)
+  - [启动服务网页服务](#启动服务网页服务)
+  - [外网信息搜集](#外网信息搜集)
+    - [网段扫描](#网段扫描)
+    - [端口扫描](#端口扫描)
+  - [突破外网服务器](#突破外网服务器)
+    - [漏洞扫描](#漏洞扫描)
+    - [getshell](#getshell)
+  - [内网渗透](#内网渗透)
+    - [CS 上线](#cs-上线)
+    - [隐蔽进程](#隐蔽进程)
+    - [提升权限](#提升权限)
+    - [内网信息搜集](#内网信息搜集)
+    - [横向移动](#横向移动)
+    - [制作黄金票据](#制作黄金票据)
+- [完成实验](#完成实验)
+- [实验清理](#实验清理)
+- [参考文献](#参考文献)
 
 ---
 
@@ -370,19 +390,146 @@ nmap 192.168.114.128
 
 观察发现，这个网页存在 ```ThinkPHP 5.0.22/5.1.29 RCE```、```ThinkPHP 5.0.23 RCE``` 和 ```ThinkPHP 5.x数据库信息泄露``` 这三个漏洞。
 
-我们切换到命令执行栏
+我们切换到命令执行栏，版本选择扫描出来第一个漏洞 ```ThinkPHP 5.0.22/5.1.29 RCE```，点击执行按钮。
 
----
-- 突破外网服务器
-- - 漏洞扫描
-- - getshell
-- - - 一键 getshell （getshell 从只能访问网页到可在服务器执行命令）
-- - - 蚁剑连接跳板上传冰蝎马
-- - - 冰蝎连接
-- 内网渗透（几乎同红日1）
+![run_whoami_1](./images/run_whoami_1.png)
+
+命令成功执行，返回 ```sun\administartor```。
+
+如图操作，清理显示区。
+
+![clear_show_area_1](./images/clear_show_area_1.png)
+
+版本选择扫描出来的第二个漏洞 ```ThinkPHP 5.0.23 RCE```，点击执行按钮。
+
+![run_whoami_2](./images/run_whoami_2.png)
+
+命令成功执行，但返回的是一个整页的报错 HTML 页面，我们用浏览器打开，页面如下。
+
+![run_whoami_error](./images/run_whoami_error.png)
+
+倒也可以看到返回的 ```sun\administartor```。
+
+如图操作，清理显示区。
+
+![clear_show_area_2](./images/clear_show_area_2.png)
+
+版本选择扫描出来的最后一个漏洞 ```ThinkPHP 5.x数据库信息泄露```，点击执行按钮。
+
+![run_whoami_3](./images/run_whoami_3.png)
+
+发现命令执行失败。
+
+>[!NOTE]
+>
+><details>
+><summary>
+>这条 whoami 命令是怎么执行的？为什么在不同的漏洞种类下，产生的效果不一样？
+></summary>
+>
+>$\;$
+>
+>把 ThinkPHP 想象成一家餐厅流水线：接单 $\rightarrow$ 分单 $\rightarrow$ 检查订单 $\rightarrow$ 做菜 $\rightarrow$ 上菜。我们要执行的 whoami 就是一道偷偷加塞的菜。三个漏洞的区别，只在于在哪个环节把这道菜塞进去，以及这个环节能不能做菜。
+>
+>**5.0.22/5.1.29 RCE：直通厨房的 “外卖热线”**
+>
+>这个漏洞相当于餐厅留了一条正规热线，可以直接点名让厨房做某道菜。你打过去说 “做一道 ```whoami```”，厨房做完，服务员原封不动端给你。盘子里只有菜，没有别的东西。所以扫描器看到的就是干干净净的 ```sun\administrator```。
+>
+>**5.0.23 RCE：往 “验单机” 里塞纸条**
+>
+>这个漏洞没有直通的门路，你的办法是：在订单检查环节动了手脚，骗验单机器 “顺便” 把 ```whoami``` 做了。
+>
+>菜确实做出来了（命令执行成功），但验单机被你搞乱了，后面的流程全乱套，餐厅警报大作。最后服务员端给你的不是你的菜，而是一整份厚厚的《事故报告》（就是那个错误页面 HTML），你的菜被别在报告的第一页，也就是输出中 body 部分的第一段。
+>
+>所以，这不是执行失败，而是结果被打包进了错误页，用浏览器打开这份 “报告” 自然能看到 ```sun\administrator```。
+>
+>**数据库信息泄露：嘴不严的收银员**
+>
+>这个漏洞压根不是做菜通道。它更像一个嘴不严的收银员：你故意问一个刁钻的问题，他一慌张就把保险柜密码（数据库账号）说漏了。
+>
+>他的本事只有 “说漏嘴”，从来进不了厨房。你让他做一道 whoami，他当然做不到，所以扫描器直接报"命令执行失败"。这个模块的正确用法是套数据库的账号密码，不是执行命令。
+>
+></details>
+
+显然，漏洞 ```ThinkPHP 5.0.22/5.1.29 RCE``` 是我们利用的最佳选项。
+
+#### getshell
+
+>[!NOTE]
+>
+>getshell 指‌拿到目标服务器的命令执行权限‌。
+
+我们切换回信息栏，版本选择 ```ThinkPHP 5.0.22/5.1.29 RCE```，点击 Getshell 按钮。
+
+![one_button_getshell](./images/one_button_getshell.png)
+
+如图我们可知：这个工具帮我们上传了一句话木马到服务器。
+
+我们打开蚁剑进行连接。
+
+![antsword_add_shell](./images/antsword_add_shell.png)
+
+双击进入文件管理界面。
+
+![open_file_management_page](./images/open_file_management_page.png)
+
+右键新建文件，命名为 ```bx.php```。
+
+![create_bx.php](./images/create_bx.php.png)
+
+![rename_bx.php](./images/rename_bx.php.png)
+
+我们找到冰蝎的文件目录，进入 ```server``` 子目录，找到 ```shell.php``` 文件，将内容 copy 到上传的 ```bx.php``` 中。
+
+![copy_context_from_shell_to_bx](./images/copy_context_from_shell_to_bx.png)
+
+打开冰蝎，右键，新增，填入 URL，版本类型选择 PHP，加密类型选默认，连接密码填入默认密码：```rebeyond```。
+
+![Behinder_add_shell](./images/Behinder_add_shell.png)
+
+双击该网站，找到存储 ```peiqi.php``` 和 ```bx.php``` 的文件路径，删除 ```peiqi.php```。
+
+![delete_peiqi.php](./images/delete_peiqi.php.png)
+
+>[!NOTE]
+>
+><details>
+><summary>
+>为什么我们要大费周章的用蚁剑连接后上传 bx.php 再用冰蝎连接？直接继续用蚁剑不香吗？以及为什么冰蝎连接后我们要删掉原来的 peiqi.php？
+></summary>
+>
+>$\;$
+>
+>首先，我们要知道：蚁剑使用的一句话木马是通过明文传输，而冰蝎则是用密文传输。那么其中利弊自不必多说（流量隐蔽性、溯源难度）。
+>
+>冰蝎接管后，蚁剑使用的 peiqi.php 就没有用了，留着只会增大暴露的可能。
+>
+></details>
+
+### 内网渗透
+
+#### CS 上线
+
+#### 隐蔽进程
+
+#### 提升权限
+
+#### 内网信息搜集
+
+#### 横向移动
+
+#### 制作黄金票据
+
+## 完成实验
+
+## 实验清理
+
+我们可以选择将三台虚拟机恢复到实验前快照的状态，如果没有打快照，那建议直接将四台虚拟机全部扬了重装，以防历史数据影响实验。
+
 ---
 
 ## 参考文献
 
 1. [红日靶场 05 通关记录](https://cn-sec.com/archives/1040933.html)
 2. [红日靶场 5 实战全流程](https://blog.csdn.net/mooyuan/article/details/152000293)
+3. [红日靶场五（vulnstack5）渗透分析](https://zhuanlan.zhihu.com/p/654020794)
