@@ -364,9 +364,13 @@ nmap 192.168.114.128
 
 #### 漏洞扫描
 
-我们打开莲花工具，填入 URL，版本选择 All。如图操作：
+我们打开莲花工具，填入 URL，版本选择 All。如图操作，进行漏洞扫描。
 
 ![vulnerability_scanning](./images/vulnerability_scanning.png)
+
+观察发现，这个网页存在 ```ThinkPHP 5.0.22/5.1.29 RCE```、```ThinkPHP 5.0.23 RCE``` 和 ```ThinkPHP 5.x数据库信息泄露``` 这三个漏洞。
+
+我们切换到命令执行栏
 
 ---
 - 突破外网服务器
