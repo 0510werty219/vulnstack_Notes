@@ -37,7 +37,7 @@
 >
 > **警告！**
 >
-> 为保证不发生不可预测的严重后果，请不要在真实的网络环境中进行此实验。请在虚拟机环境中完成本试验。推荐使用 [VMware Workstation Pro](https://vmware.xznkjzx.cn/)。
+> 为保证不发生不可预测的严重后果，请不要在真实的网络环境中进行此实验。请在虚拟机环境中完成本实验。推荐使用 [VMware Workstation Pro](https://vmware.xznkjzx.cn/)。
 
 >[!IMPORTANT]
 >
@@ -344,7 +344,7 @@ dirb http://192.168.114.129
 
 ![phpinfo-2](./images/phpinfo-2.png)
 
-我们向下浏览这个页面可以看到 web 服务器的具体类型是 Apache/2.4.23 (Win32) OpenSSL/1.0.2j PHP/5.4.45 依旧可以查找其已知漏洞，不过本试验不过多展开。
+我们向下浏览这个页面可以看到 web 服务器的具体类型是 Apache/2.4.23 (Win32) OpenSSL/1.0.2j PHP/5.4.45 依旧可以查找其已知漏洞，不过本实验不过多展开。
 
 ![phpinfo-3](./images/phpinfo-3.png)
 
