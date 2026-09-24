@@ -510,6 +510,29 @@ nmap 192.168.114.128
 
 #### CS 上线
 
+我们打开 CS，添加监听器。
+
+![add_listener](./images/add_listener.png)
+
+生成 Windows 可执行文件 stageless 版
+
+![create_stageless_exe](./images/create_stageless_exe.png)
+
+保存为 ```~/Documents/hrsb.exe```
+
+>[!NOTE]
+>
+><details>
+><summary>
+>为什么在这里我们要用 stageless 版，而在红日靶场 1 则用 stage 版？这俩有啥区别？
+></summary>
+>
+>$\;$
+>
+>~~其实在这里用哪个都一样，只是单纯的想用这个，体验新奇事物~~
+>
+></details>
+
 #### 隐蔽进程
 
 #### 提升权限
