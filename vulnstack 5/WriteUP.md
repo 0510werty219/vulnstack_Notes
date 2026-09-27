@@ -524,12 +524,30 @@ nmap 192.168.114.128
 >
 ><details>
 ><summary>
->为什么在这里我们要用 stageless 版，而在红日靶场 1 则用 stage 版？这俩有啥区别？
+>为什么在这里我们要用 stageless 版，而在红日靶场 1 则用 staged 版？这俩有啥区别？
 ></summary>
 >
 >$\;$
 >
 >~~其实在这里用哪个都一样，只是单纯的想用这个，体验新奇事物~~
+>
+>![staged_vs_stageless](./images/staged_vs_stageless.png)
+>
+>**Staged**
+>
+>- 生成的 .exe 里只有一个小体积的 Stager（加载器）​，并不包含完整的 Beacon 代码
+>
+>- 运行后 Stager 先回连 Team Server，再下载完整 Beacon 载荷（Stage）​，反射式加载进内存执行
+>
+>**Stageless**
+>
+>- .exe 里直接打包了完整的 Beacon，运行即上线，不需要任何二次下载
+>
+>**使用场景**
+>
+>能落地完整文件 / 有上传通道  → stageless（默认，赢 80% 的场景）
+>
+>只能塞极小载荷 / 要无文件    → staged（剩下 20% 的特定战术）
 >
 ></details>
 
