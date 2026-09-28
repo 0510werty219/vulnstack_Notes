@@ -580,7 +580,7 @@ nmap 192.168.114.128
 >
 ></details>
 
-#### 隐蔽进程
+#### 迁移进程
 
 右键进行会话交互，运行命令，查看 whoami
 
@@ -612,8 +612,6 @@ sleep 1
 
 ![change-sleeptime](./images/change-sleeptime.png)
 
-#### 迁移进程
-
 木马上线后由于特征明显，为防止未来程序被删所以我们要将进程迁移到别的系统程序上
 
 首先，查看正在运行的进程。
@@ -642,15 +640,191 @@ inject 2612
 
 发现多出了一个会话，说明注入成功
 
+我们把原进程 kill 掉
+
+```bash
+kill 1636
+```
+
+![kill_1636](./images/kill_1636.png)
+
 #### 提升权限
+
+右键新会话，进行会话交互
+
+![interact_with_2612](./images/interact_with_2612.png)
+
+同样调整回连时间间隔为 1s (默认 1min)
+
+>[!TIP]
+>
+>实战中不建议这么做，不然流量特征会变得较为明显易被发现
+
+```bash
+sleep 1
+```
+
+![change_sleep_time_again](./images/change_sleep_time_again.png)
+
+如图进行权限提升
+
+![increase_privilege](./images/increase_privilege.png)
+
+等待一段时间，发现多出了一个 user 为 SYSTEM* 的会话，说明提权成功
+
+![get_SYSTEM](./images/get_SYSTEM.png)
+
+>[!IMPORTANT]
+>
+>不要把刚刚那个低权限进程 kill 掉。因为前面的这个进程除了运行我们的木马程序还负责运行正常服务，如果把它 kill 掉了，无异于自爆行为！
+
+右键新会话，进行交互，同样调整回连时间间隔为 1s (默认 1min)
+
+>[!TIP]
+>
+>实战中不建议这么做，不然流量特征会变得较为明显易被发现
+
+```bash
+sleep 1
+```
+
+![change_sleeptime_again_and_again](./images/change_sleeptime_again_and_again.png)
 
 #### 内网信息搜集
 
+运行命令 ```net view``` 查看处于同域或者工作组的计算机
+
+![net_view](./images/net_view.png)
+
+显然，域内另外一台主机：DC 是 PDC，即主域控制器，是整个域环境的核心资产，存储着全部域用户的账户信息与密码哈希。攻陷此目标等同于完全控制全域。
+
+我们先如图进行端口扫描
+
+![port_scan](./images/port_scan.png)
+
+>[!TIP]
+>
+>这一过程相当缓慢，请耐心等待 ```Scanner module is complete``` 字样出现
+
+![discover_port_445](./images/discover_port_445.png)
+
+发现都打开了 445 端口
+
 #### 横向移动
+
+如图进行代理转发
+
+![proxy_forward](./images/proxy_forward.png)
+
+如图进行明文密码抓取
+
+![get_decoded_password](./images/get_decoded_password.png)
+
+观察可知：```Administartor/dc123.com``` 和 ```leo/123.com``` 两组账号/密码对。
+
+如图进行横向移动
+
+![jump](./images/jump.png)
+
+>[!IMPORTANT]
+>
+>一定要记住域名的全称，不要记短域名以防在后续操作中出现问题，建议从 kerberos 那里看
+
+等待一会儿，即可发现多了一个 computer 为 DC 的会话
+
+右键会话，进行交互，运行命令 ```shell ipconfig``` 进行验证
+
+![run_ipconfig_to_check](./images/run_ipconfig_to_check.png)
+
+说明上线域控成功
 
 #### 制作黄金票据
 
+>[!NOTE]
+>
+><details>
+><summary>
+>什么是黄金票据？为什么要制作黄金票据？
+></summary>
+>
+>$\;$
+>
+>前置知识：Kerberos 认证协议
+>
+>在正常的域环境中，用户登录时会向域控（DC）请求一张 TGT（票据授予票据）。这张票据就像是域控给你发的“临时免密通行证”，证明你是合法用户，从而免除每次操作都需要验证账密的繁琐步骤。
+>
+>而黄金票据攻击的原理是：
+>
+>攻击者在拿下域控后，提取了域控中一个极其特殊的账号 —— krbtgt 的密码哈希值（Hash）。krbtgt 是 Kerberos 协议的核心，专门负责签发和验证所有的 TGT 票据。
+>
+>利用这个 Hash，攻击者可以在自己的机器上凭空伪造一张拥有最高权限的 TGT 票据（即黄金票据）。然后，攻击者把这张假票据注入到自己的系统中，域控在验证时会认为它是合法的，从而赋予攻击者整个域的最高权限（通常是域管理员）。
+>
+>制作黄金票据，主要是为了解决以下三个痛点：
+>
+>1. **终极的权限维持（不怕改密码）**
+>
+>$\;\;\;\;\;\;\;\;\;$ 在实战中，防守方（蓝队）一旦发现异常，第一反应通常是修改域管密码或禁用账号。
+>
+>$\;\;\;\;\;\;\;\;\;$ 普通攻击的局限：如果攻击者只是偷了域管密码，防守方一改密码，攻击者就被踢出去了。
+>
+>$\;\;\;\;\;\;\;\;\;$ 黄金票据的优势：krbtgt 的密码是域环境初始化时自动生成的，正常情况下永远不会被更改。只要 krbtgt 的 Hash 没变，哪怕防守方把域管密码改了一百次，攻击者依然可以拿着黄金票据随时以域管身份登录任何机器。
+>
+>2. **绕过正常的认证流程**
+>
+>$\;\;\;\;\;\;\;\;\;$ 使用黄金票据时，攻击者是离线生成 TGT 票据的。这意味着攻击者在访问域内资源时，直接跳过了向域控请求票据的步骤。这种“免检通道”极大地降低了被域控安全日志记录的风险，隐蔽性极强。
+>
+>3. **随心所欲地伪造身份**
+>
+>$\;\;\;\;\;\;\;\;\;$ 因为票据是攻击者自己伪造的，攻击者可以随意指定票据上的用户名、用户组（比如直接加上 Domain Admins 组）甚至有效期。这让攻击者在域内横行无忌，可以访问任何文件服务器、数据库或执行任何管理操作。
+>
+></details>
+
+如图，抓去哈希
+
+![get_hash](./images/get_hash.png)
+
+运行命令，查看 SID
+
+```bash
+shell whoami /all
+```
+
+![get_SID](./images/get_SID.png)
+
+>[!NOTE]
+>
+><details>
+><summary>
+>为什么要抓取哈希和 SID？
+></summary>
+>
+>$\;$
+>
+>抓取的哈希是 krbtgt 的密码哈希值（Hash），攻击者需要用这个 Hash 作为密钥，“签发”并加密自己伪造的 TGT 票据。
+>
+>如果没有这个 Hash，攻击者就无法生成一张能被域控和目标服务器信任的票据。
+>
+>SID（Security Identifier，安全标识符）是 Windows 操作系统内部用来唯一标识用户、组或计算机账户的一串字符，可以把它理解为“系统内部的身份证号”
+>
+>攻击者需要把自己的 SID 替换成 Domain Admins 组的 SID，从而在票据中伪装成域管。
+>
+></details>
+
+如图制作黄金票据
+
+![make_golden_ticket](./images/make_golden_ticket.png)
+
+看到输出 ```Golden ticket for 'Administrator @ SUN.COM' successfully submitted for current session``` 说明成功生成黄金票据
+
+![finish_golden_ticket](./images/finish_golden_ticket.png)
+
 ## 完成实验
+
+至此，我们算是彻底完全攻陷了全域。
+
+以图形式展示会话如下：
+
+![finish_experiment](./images/finish_experiment.png)
 
 ## 实验清理
 
