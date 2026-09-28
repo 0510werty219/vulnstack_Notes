@@ -551,7 +551,96 @@ nmap 192.168.114.128
 >
 ></details>
 
+利用冰蝎上传 ```hrsb.exe``` 到 win7 服务器 ```c:/phpStudy``` 文件夹中
+
+![upload_hrsb](./images/upload_hrsb.png)
+
+![check_hrsb_upload](./images/check_hrsb_upload.png)
+
+在冰蝎中从文件管理栏切换到虚拟终端，启动 ```cmd.exe```，切换到 ```c:/phpStudy``` 文件夹中，运行 ```hrsb.exe```
+
+![run_hrsb](./images/run_hrsb.png)
+
+等待一会儿即可在 CS 端发现：运行的 ```hrsb.exe``` 已经产生了回连 
+
+![CS_get_hrsb](./images/CS_get_hrsb.png)
+
+>[!NOTE]
+>
+><details>
+><summary>
+>名为 hongrisec 的监听器和这个 hrsb.exe 的可执行文件分别有什么用？
+></summary>
+>
+>$\;$
+>
+>先说 ```hrsb.exe``` 它是一个木马程序，类似于前面用到的 ```bx.php```。不过，它能提供的控制服务更加全面，是正规驻军。同时，它的通信隐蔽性更强，流量特征较弱，不易被发现。最后，它可以通过后续操作注册为系统服务、写入 Windows 计划任务、或者利用注册表启动项。即使服务器重启，也会自动在后台静默启动，继续向攻击机报到。
+>
+>而名为 ```hongrisec``` 的监听器则用于接收木马程序 ```hrsb.exe``` 的回传数据。
+>
+></details>
+
 #### 隐蔽进程
+
+右键进行会话交互，运行命令，查看 whoami
+
+![cs_run_whoami](./images/cs_run_whoami.png)
+
+>[!TIP]
+>
+>从这一步开始，后面的步骤响应速度可能会比较缓慢，请耐心等待
+
+与 ```hrsb.exe``` 会话进行交互。
+
+关闭防火墙
+
+```bash
+shell netsh advfirewall set allprofiles state off
+```
+
+![close-firewall](./images/close-firewall.png)
+
+调整回连时间间隔为 1s (默认 1min)
+
+>[!TIP]
+>
+>实战中不建议这么做，不然流量特征会变得较为明显易被发现
+
+```bash
+sleep 1
+```
+
+![change-sleeptime](./images/change-sleeptime.png)
+
+#### 迁移进程
+
+木马上线后由于特征明显，为防止未来程序被删所以我们要将进程迁移到别的系统程序上
+
+首先，查看正在运行的进程。
+
+```bash
+ps
+```
+
+![check_ps](./images/check_ps.png)
+
+这里我们选择将进程迁移到 ```explorer.exe``` 进程中，```explorer.exe``` 是高信誉进程，安全软件不会轻易拦截，监听器选择 ```hongrisec```
+
+```bash
+inject 1496
+```
+
+![inject_1496](./images/inject_1496.png)
+
+发现权限太低，不被允许，于是选择注入到 phpStudy 进程中
+
+```bash
+inject 2612
+```
+
+![inject_2612](./images/inject_2612.png)
+
+发现多出了一个会话，说明注入成功
 
 #### 提升权限
 
