@@ -21,7 +21,7 @@
 >
 >1. 你需要下载 [红日靶场 2](http://vulnstack.qiyuanxuetang.net/vuln/detail/3/)
 >2. 推荐使用 [kali](https://www.kali.org/) 作为攻击机。
->3. 建议在实验前，下载并安装好 这些软件
+>3. 建议在实验前，下载并安装好 [Weblogic Scanner](https://github.com/dr0op/WeblogicScan)、[Cobalt Strike](https://lololowe.lanzoul.com/b0fpjwwxc?pwd=2xhh)。
 
 >[!ERROR]
 >
@@ -29,16 +29,12 @@
 
 ### 靶机配置
 
->[!ERROR]
->
->This part has been just copied to here, there are too many details I have not correct!
-
 1. 通过扫描红日靶场 2 的本地存储目录添加虚拟机。
 2. 编辑 $\rightarrow$ 虚拟网络编辑器 $\rightarrow$ 更改配置 $\rightarrow$ 配置网络如下（只用管 VMnet4 和 VMnet8）：
 ![VMnet-set](./images/VMnet-set.png)
-3. 使用密码：```1qaz@WSX``` 进入各靶机
-4. 依次编辑三台靶机设置，调整三台靶机的 ```网络适配器``` 为 ```自定义(VMnet4)```，调整 PC 和 WEB 两台靶机的 ```网络适配器 2``` 为 ```NAT``` 模式
-5. 进入各靶机，打开 ```cmd``` 或 ```powershell```，运行指令 ```ipconfig``` 查看本机 ip 地址。应如下：
+1. 使用密码：```1qaz@WSX``` 进入各靶机，WEB 这台靶机如果进不去需要恢复到 ```v1.3``` 快照版本
+2. 依次编辑三台靶机设置，调整三台靶机的 ```网络适配器``` 为 ```自定义(VMnet4)```，调整 PC 和 WEB 两台靶机的 ```网络适配器 2``` 为 ```NAT``` 模式
+3. 进入各靶机，打开 ```cmd``` 或 ```powershell```，运行指令 ```ipconfig``` 查看本机 ip 地址。应如下：
 
 | 机器名称 | ip 地址（VMnet4） | ip 地址（NAT） |
 |:-:|:-:|:-:|
@@ -61,6 +57,68 @@
 >
 >等待一段时间即可发现：IPv4 地址正确地和所属子网保持在同一网段了。
 
+### Cobalt Strike 安装与使用教程
+
+[Cobalt Strike](https://lololowe.lanzoul.com/b0fpjwwxc?pwd=2xhh) 密码是：```2xhh```
+
+[Cobalt Strike 安装和基本使用方式](https://blog.lololowe.com/posts/7126/)
+
+在 kali 中解压缩，分别用两个终端打开文件夹。
+
+在终端 1 中，运行命令，启动 Cobalt Strike 服务端
+
+```bash
+# 格式为： sudo ./teamserver <kali NAT ip> <kali password>
+sudo ./teamserver 192.168.114.132 kali
+```
+
+正常情况如下：
+
+![cs-teamserver](./images/cs-teamserver.png)
+
+在终端 2 中，运行命令，启动 Cobalt Strike 客户端
+
+```bash
+./cobaltstrike
+```
+
+如下配置
+
+![cs-client](./images/cs-client.png)
+
+>[!TIP]
+>
+>第一次运行时有概率因没有执行权限而报错
+>请运行：
+>
+>```bash
+>chmod +x teamserver
+>```
+>或
+>```bash
+>chmod +x cobaltstrike
+>```
+>以添加相应权限
+
+>[!TIP]
+>
+>对于 cs4.5 而言，过高的 JDK 版本也会导致报错
+>请下载低版本 [JDK11](https://adoptium.net/zh-CN/temurin/releases?version=11&os=any&arch=any)
+>并在启动客户端前运行命令，临时更改 JDK 版本
+>
+>```bash
+># 格式为：export JAVA_HOME= <path to jdk-11>
+>export JAVA_HOME=/home/kali/Tools/jdk-11.0.32+9/
+>```
+>
+>与
+>
+>```bash
+>export PATH=$JAVA_HOME/bin:$PATH
+>```
+>
+>然后再在同一终端启动客户端
+
 ---
 
 ## 完成实验
@@ -80,7 +138,4 @@
 ---
 
 ## 参考文献
-1. [ATT&CK实战系列：红日靶场 1（内网攻防实战）详细打靶思路](https://blog.csdn.net/2301_80007437/article/details/159826652)
-2. [ATT&CK 红队靶场实战 - 红日靶场 1](https://blog.lololowe.com/posts/bb48/)
-3. [获取蚁剑](https://www.yuque.com/antswordproject/antsword/srruro)
-4. [Cobalt Strike 安装和基本使用方式](https://blog.lololowe.com/posts/7126/)
+1. [红日靶场2](https://cqjkl55.github.io/2023/09/20/%E7%BA%A2%E6%97%A5%E9%9D%B6%E5%9C%BA2/)

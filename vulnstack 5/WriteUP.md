@@ -42,7 +42,7 @@
 >
 >1. 你需要下载 [红日靶场 5](http://vulnstack.qiyuanxuetang.net/vuln/detail/7/)
 >2. 推荐使用 [kali](https://www.kali.org/) 作为攻击机。
->3. 建议在实验前，下载并安装好 [ThinkPHP 漏洞利用 GUI 工具](https://github.com/Lotus6/ThinkphpGUI/releases/tag/1.3) 、 [冰蝎](https://github.com/rebeyond/Behinder/releases/tag/Behinder_v4.0.7) 和 [Cobalt Strike](https://lololowe.lanzoul.com/b0fpjwwxc?pwd=2xhh)。
+>3. 建议在实验前，下载并安装好 [ThinkPHP 漏洞利用 GUI 工具](https://github.com/Lotus6/ThinkphpGUI/releases/tag/1.3) 、[中国蚁剑](https://github.com/AntSwordProject/)、[冰蝎](https://github.com/rebeyond/Behinder/releases/tag/Behinder_v4.0.7) 和 [Cobalt Strike](https://lololowe.lanzoul.com/b0fpjwwxc?pwd=2xhh)。
 
 ### 靶机配置
 
@@ -116,6 +116,24 @@ java -jar ThinkphpGUI-1.3-SNAPSHOT.jar
 ![try_start_ThinkPHPGUI](./images/try_start_ThinkPHPGUI.png)
 
 后续，为方便称呼，我们直接称其为 “莲花”。
+
+### 蚁剑安装与使用教程
+
+[蚁剑](https://github.com/AntSwordProject/)
+
+![AntSword-master](./images/AntSword-master.png)
+
+![AntSword-Loader](./images/AntSword-Loader.png)
+
+![AntSword-Loader-zip](./images/AntSword-Loader-zip.png)
+
+[获取蚁剑](https://www.yuque.com/antswordproject/antsword/srruro)
+
+在 kali 中解压缩，打开 Loader 双击 AntSword 初始化选择 master 文件夹。
+
+>[!TIP]
+>
+>这里建议全屏打开 kali，同时适当缩小并上移窗口，初始化选择文件夹的那个窗口有概率会很大，可能会看不到底下的选择键。（当时本蒟蒻还以为哪里出错了）
 
 ### 冰蝎 安装与使用教程
 
